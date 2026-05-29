@@ -1777,7 +1777,7 @@
     "mailingLists": [],
     "tip": "Project ideas are discussed and updated on the LibreHealth Forum. Engage with the community early and seek feedback on your proposal ideas.",
     "status": "ok",
-    "lastFetched": "2026-05-09T16:09:12.548Z"
+    "lastFetched": "2026-05-29T13:00:00.000Z"
   },
   "LibreOffice": {
     "org": "LibreOffice",
@@ -1886,9 +1886,9 @@
       }
     ],
     "mailingLists": [],
-    "tip" : "To contribute to the LLVM Project take a look at its Contribution Guide",
+    "tip" : "To contribute to the Project take a look at its Contribution Guide",
     "status": "ok",
-    "lastFetched": "2026-05-09T16:09:12.548Z"
+    "lastFetched": "2026-05-29T13:10:00.000Z"
   },
   "Machine Learning for Science (ML4SCI)": {
     "org": "Machine Learning for Science (ML4SCI)",
