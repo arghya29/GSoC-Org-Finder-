@@ -5047,7 +5047,6 @@ if(e.key.toLowerCase()==='r'){
 
   let isNavClicking = false;
   let navClickTimer = null;
-  let scrollStopTimer = null;
 
   document.querySelectorAll(".desktop-nav-link").forEach(link => {
     link.addEventListener("click", (e) => {
@@ -5058,7 +5057,6 @@ if(e.key.toLowerCase()==='r'){
       scrollToSectionIndex(currentSection);
       navClickTimer = setTimeout(() => {
         isNavClicking = false;
-        
       }, 1500);
     });
   });
@@ -5072,7 +5070,6 @@ if(e.key.toLowerCase()==='r'){
       scrollToSectionIndex(currentSection);
       navClickTimer = setTimeout(() => {
         isNavClicking = false;
-        
       }, 1500);
 
       if (typeof globalThis.toggleMenu === "function") {
@@ -5101,16 +5098,15 @@ if(e.key.toLowerCase()==='r'){
     }
 
     const observer = new IntersectionObserver((entries) => {
-      if (isNavClicking) return;
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const index = sections.indexOf(entry.target);
-          if (index !== -1) {
-            currentSection = index;
-            updateNavState();
-          }
-        }
-      });
+        if (isNavClicking) return;
+        const intersecting = entries
+          .filter(entry => entry.isIntersecting)
+          .map(entry => sections.indexOf(entry.target))
+          .filter(index => index !== -1);
+        if (intersecting.length === 0) return;
+        // Pick the topmost (lowest index) visible section
+        currentSection = Math.min(...intersecting);
+        updateNavState();
     }, {
       rootMargin: `-${(mainHeader?.clientHeight || 0) + 10}px 0px -60% 0px`,
       threshold: 0
