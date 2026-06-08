@@ -5051,15 +5051,24 @@ if(e.key.toLowerCase()==='r'){
     });
   }
 
+  let isNavClicking = false;
+  let navClickTimer = null;
+
   document.querySelectorAll(".desktop-nav-link").forEach(link => {
     link.addEventListener("click", () => {
+      isNavClicking = true;
+      clearTimeout(navClickTimer);
       setCurrentSectionById(link.dataset.section);
+      navClickTimer = setTimeout(() => { isNavClicking = false; }, 1000);
     });
   });
 
   document.querySelectorAll(".mobile-menu-link").forEach(link => {
     link.addEventListener("click", () => {
+      isNavClicking = true;
+      clearTimeout(navClickTimer);
       setCurrentSectionById(link.dataset.section);
+      navClickTimer = setTimeout(() => { isNavClicking = false; }, 1000);
 
       if (typeof globalThis.toggleMenu === "function") {
         globalThis.toggleMenu();
@@ -5068,12 +5077,11 @@ if(e.key.toLowerCase()==='r'){
   });
 
   function updateCurrentSection() {
+    if (isNavClicking) return; // ignore scroll during nav click
     const scrollPos = window.scrollY + getSectionDetectionOffset();
-
     sections.forEach((section, index) => {
       if (scrollPos >= section.offsetTop) currentSection = index;
     });
-
     updateNavState();
   }
 
