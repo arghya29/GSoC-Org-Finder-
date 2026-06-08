@@ -5097,15 +5097,21 @@ if(e.key.toLowerCase()==='r'){
       updateNavState();
     }
 
+    const visibleSections = new Set();
+
     const observer = new IntersectionObserver((entries) => {
-        if (isNavClicking) return;
-        const intersecting = entries
-          .filter(entry => entry.isIntersecting)
-          .map(entry => sections.indexOf(entry.target))
-          .filter(index => index !== -1);
-        if (intersecting.length === 0) return;
-        // Pick the topmost (lowest index) visible section
-        currentSection = Math.min(...intersecting);
+       if (isNavClicking) return;
+        entries.forEach(entry => {
+          const index = sections.indexOf(entry.target);
+          if (index === -1) return;
+          if (entry.isIntersecting) {
+            visibleSections.add(index);
+          } else {
+            visibleSections.delete(index);
+          }
+        });
+        if (visibleSections.size === 0) return;
+        currentSection = Math.min(...visibleSections);
         updateNavState();
     }, {
       rootMargin: `-${(mainHeader?.clientHeight || 0) + 10}px 0px -60% 0px`,
